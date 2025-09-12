@@ -1,3 +1,4 @@
+import NavigationMenu from "../islands/navigation-menu.tsx";
 import AutocompleteSearch from "../islands/autocomplete-search.tsx";
 import { define } from "../utils.ts";
 
@@ -17,9 +18,8 @@ export default define.page(function App({ Component }) {
                 Watch<span class="text-orange-300">IT</span>
               </h1>
             </a>
-            <div>Navigation Menu</div>
+            <NavigationMenu />
             <AutocompleteSearch />
-            <div>Theme Toggler</div>
           </nav>
           <Component />
         </div>
