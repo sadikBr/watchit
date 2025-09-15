@@ -1,5 +1,5 @@
 import { useMemo, useState } from "preact/hooks";
-import useAutocomplete from "../hooks/useAutocomplete.ts";
+import useAutocomplete from "../hooks/use-autocomplete.ts";
 
 export default function AutocompleteSearch() {
   const [query, setQuery] = useState("");
@@ -13,8 +13,11 @@ export default function AutocompleteSearch() {
       return {
         display_name: data.display_name,
         title: data.title,
-        bannerImgUrl: data.banner_background_image.split("?")[0] ||
-          data.banner_img || data.header_img || data.mobile_banner_image,
+        bannerImgUrl:
+          data.banner_background_image.split("?")[0] ||
+          data.banner_img ||
+          data.header_img ||
+          data.mobile_banner_image,
         iconImg: data.icon_img || data.community_icon.split("?")[0],
         description: data.public_description,
       };
@@ -49,43 +52,42 @@ export default function AutocompleteSearch() {
             </a>
 
             <div class="flex flex-col gap-1 w-full">
-              {loading
-                ? (
-                  <div class="px-2 py-4 bg-blue-950">
-                    <div class="flex items-center gap-2">
-                      <div class="w-16 aspect-square rounded-full bg-white shrink-0" />
-                      <div class="flex flex-col w-full gap-1">
-                        <div class="w-[40%] h-8 bg-gray-300" />
-                        <div class="w-[80%] h-12 bg-gray-300" />
-                      </div>
+              {loading ? (
+                <div class="px-2 py-4 bg-blue-950">
+                  <div class="flex items-center gap-2">
+                    <div class="w-16 aspect-square rounded-full bg-white shrink-0" />
+                    <div class="flex flex-col w-full gap-1">
+                      <div class="w-[40%] h-8 bg-gray-300" />
+                      <div class="w-[80%] h-12 bg-gray-300" />
                     </div>
                   </div>
-                )
-                : error.length > 0
-                ? <div class="px-2 py-4 bg-blue-950">{error}</div>
-                : requiredRenderData.length > 0 && !loading &&
-                  requiredRenderData.map((item) => (
-                    <a
-                      class="block px-2 py-4 bg-blue-950 hover:bg-blue-800 transition"
-                      href={`http://localhost:5173/r/${item.display_name}`}
-                    >
-                      <div class="flex items-center gap-2">
-                        <img
-                          src={item.iconImg}
-                          alt="icon"
-                          class="w-16 aspect-square rounded-full bg-white shrink-0"
-                        />
-                        <div class="flex flex-col gap-1">
-                          <h1 class="text-md font-semibold text-orange-300">
-                            {item.display_name} - {item.title}
-                          </h1>
-                          <p class="text-sm text-gray-300">
-                            {item.description}
-                          </p>
-                        </div>
+                </div>
+              ) : error.length > 0 ? (
+                <div class="px-2 py-4 bg-blue-950">{error}</div>
+              ) : (
+                requiredRenderData.length > 0 &&
+                !loading &&
+                requiredRenderData.map((item) => (
+                  <a
+                    class="block px-2 py-4 bg-blue-950 hover:bg-blue-800 transition"
+                    href={`http://localhost:5173/r/${item.display_name}`}
+                  >
+                    <div class="flex items-center gap-2">
+                      <img
+                        src={item.iconImg}
+                        alt="icon"
+                        class="w-16 aspect-square rounded-full bg-white shrink-0"
+                      />
+                      <div class="flex flex-col gap-1">
+                        <h1 class="text-md font-semibold text-orange-300">
+                          {item.display_name} - {item.title}
+                        </h1>
+                        <p class="text-sm text-gray-300">{item.description}</p>
                       </div>
-                    </a>
-                  ))}
+                    </div>
+                  </a>
+                ))
+              )}
             </div>
           </div>
         )}
