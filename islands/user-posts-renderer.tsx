@@ -1,15 +1,15 @@
 import ErrorDisplay from "../components/error-display.tsx";
 import LoadingSpinner from "../components/loading-spinner.tsx";
-import useSearch from "../hooks/use-search.ts";
+import useUser from "../hooks/use-user.ts";
 
-export default function SearchResultsRenderer({
-  query,
+export default function UserPostsRenderer({
+  username,
   after,
 }: {
-  query: string;
+  username: string;
   after: string;
 }) {
-  const { searchResults, loading, error } = useSearch(query, { after });
+  const { userData, loading, error } = useUser(username, { after });
 
   return (
     <div>
@@ -21,10 +21,10 @@ export default function SearchResultsRenderer({
         <div class="w-96 mx-auto my-8">
           <ErrorDisplay error={error} />
         </div>
-      ) : searchResults.children.length > 0 ? (
+      ) : userData.children.length > 0 ? (
         <div class="px-8 py-4">
           <div class="columns columns-1 lg:columns-2 xl:columns-3 2xl:columns-4">
-            {searchResults.children.map((child: any) => {
+            {userData.children.map((child: any) => {
               const image = child.data.url_overriden_by_dest || child.data.url;
               const video =
                 child.data.media?.reddit_video ||
@@ -55,9 +55,9 @@ export default function SearchResultsRenderer({
           </div>
           <div class="w-full flex items-center py-4">
             <a
-              href={`http://localhost:5173/search/${query}?after=${searchResults.after}`}
+              href={`http://localhost:5173/u/${username}?after=${userData.after}`}
               class={`ml-auto cursor-pointer font-bold p-3 w-42 flex items-center justify-center border border-blue-950 rounded-sm text-orange-300 hover:bg-blue-950 transition ${
-                !searchResults.after && "invisible"
+                !userData.after && "invisible"
               }`}
             >
               Next
@@ -66,7 +66,7 @@ export default function SearchResultsRenderer({
         </div>
       ) : (
         <div class="w-96 mx-auto my-8 text-center">
-          There are no image/video posts to show for this search query.
+          There are no image/video posts to show for this user.
         </div>
       )}
     </div>

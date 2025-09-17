@@ -2,10 +2,10 @@ import { useEffect, useState } from "preact/hooks";
 
 export default function useSearch(
   query: string,
-  options: { after?: string } = { after: "" },
+  options: { after: string } = { after: "" },
 ) {
   const [searchResults, setSearchResults] = useState<any>({
-    after: null,
+    after: "",
     children: [],
   });
   const [loading, setLoading] = useState(false);
@@ -14,13 +14,13 @@ export default function useSearch(
   useEffect(() => {
     if (!query) return;
 
-    setLoading(true);
-    setError("");
-
     async function fetchSearchResults() {
+      setLoading(true);
+      setError("");
+
       try {
         const response = await fetch(
-          `https://www.reddit.com/search/.json?q=${query}&after=${options.after}`,
+          `https://www.reddit.com/search/.json?q=${query}&after=${options.after}&include_over_18=true`,
         );
 
         if (!response.ok) {
@@ -39,11 +39,13 @@ export default function useSearch(
           children,
         });
       } catch {
-        setError("Failed to fetch search results");
+        return setError("Failed to fetch search results");
+      } finally {
+        setLoading(false);
       }
     }
 
-    fetchSearchResults().finally(() => setLoading(false));
+    fetchSearchResults();
   }, [query]);
 
   return {
