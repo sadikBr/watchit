@@ -6,7 +6,6 @@ import { useMemo } from "preact/hooks";
 type Props = {
   subredditName: string;
   after?: string;
-  before?: string;
 };
 
 function SubredditBanner({ srDetails }: { srDetails: any }) {
@@ -54,15 +53,10 @@ function SubredditBanner({ srDetails }: { srDetails: any }) {
   );
 }
 
-export default function SubredditRenderer({
-  subredditName,
-  after,
-  before,
-}: Props) {
+export default function SubredditRenderer({ subredditName, after }: Props) {
   const { subreddit, loading, error } = useSubreddit(subredditName, {
     immediate: true,
     after: after ?? "",
-    before: before ?? "",
   });
 
   const filteredPosts = useMemo(

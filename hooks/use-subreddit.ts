@@ -1,16 +1,15 @@
 import { useEffect, useState } from "preact/hooks";
 import { Subreddit } from "../types/subreddit.d.ts";
 
-type SubredditOptions = { immediate: boolean; after: string; before: string };
+type SubredditOptions = { immediate: boolean; after: string };
 
 export default function useSubreddit(
   subredditName: string,
-  options: SubredditOptions = { immediate: true, after: "", before: "" },
+  options: SubredditOptions = { immediate: true, after: "" },
 ) {
   const [subreddit, setSubreddit] = useState<Subreddit>({
     children: [],
     after: options.after,
-    before: options.before,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -21,7 +20,7 @@ export default function useSubreddit(
 
     try {
       const response = await fetch(
-        `https://www.reddit.com/r/${subredditName}.json?sr_detail=true&include_over_18=true&after=${options.after}&before=${options.before}&limit=15`,
+        `https://www.reddit.com/r/${subredditName}.json?sr_detail=true&include_over_18=true&after=${options.after}&limit=15`,
       );
 
       if (!response.ok) {
@@ -42,7 +41,6 @@ export default function useSubreddit(
       setSubreddit({
         children,
         after: data.data.after,
-        before: data.data.before,
       });
     } catch {
       setError("Something went wrong.. Please try again later.");

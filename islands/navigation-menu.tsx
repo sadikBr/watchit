@@ -9,11 +9,12 @@ export default function NavigationMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const currentPath = useMemo(() => globalThis.location?.pathname, []);
 
-  const navigationMenuTriggerContent = currentPath === "/"
-    ? "Home"
-    : currentPath === "/r/popular"
-    ? "Popular"
-    : currentPath;
+  const navigationMenuTriggerContent =
+    currentPath === "/"
+      ? "Home"
+      : currentPath === "/r/popular"
+        ? "Popular"
+        : decodeURI(currentPath);
 
   return (
     <>

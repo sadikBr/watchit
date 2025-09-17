@@ -11,7 +11,6 @@ function SubredditPage(props: PageProps) {
       <SubredditRenderer
         subredditName={subreddit}
         after={searchParams.get("after") ?? ""}
-        before={searchParams.get("before") ?? ""}
       />
     </div>
   );
